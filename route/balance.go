@@ -1,8 +1,8 @@
 package route
 
 import (
-	"github.com/lacazethomas/nicehashExporter/config"
-	"github.com/lacazethomas/nicehashExporter/models"
+	"github.com/lacazethomas/nicehash-exporter/config"
+	"github.com/lacazethomas/nicehash-exporter/models"
 )
 
 //GetBalance from Nicehash API

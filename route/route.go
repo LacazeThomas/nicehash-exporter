@@ -9,9 +9,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/lacazethomas/nicehashExporter/config"
-	"github.com/lacazethomas/nicehashExporter/models"
-	"github.com/lacazethomas/nicehashExporter/utils"
+	"github.com/lacazethomas/nicehash-exporter/config"
+	"github.com/lacazethomas/nicehash-exporter/models"
+	"github.com/lacazethomas/nicehash-exporter/utils"
 
 	"github.com/pkg/errors"
 )

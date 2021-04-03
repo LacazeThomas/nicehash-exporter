@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/lacazethomas/nicehashExporter/config"
+	"github.com/lacazethomas/nicehash-exporter/config"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"

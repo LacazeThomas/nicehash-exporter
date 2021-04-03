@@ -4,9 +4,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/lacazethomas/nicehashExporter/config"
-	"github.com/lacazethomas/nicehashExporter/models"
-	"github.com/lacazethomas/nicehashExporter/route"
+	"github.com/lacazethomas/nicehash-exporter/config"
+	"github.com/lacazethomas/nicehash-exporter/models"
+	"github.com/lacazethomas/nicehash-exporter/route"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
