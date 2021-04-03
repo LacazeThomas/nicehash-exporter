@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 
@@ -13,11 +14,12 @@ import (
 
 // Metrics listed are supported
 type Metrics struct {
-	temperatureVRAM   *prometheus.GaugeVec
-	temperatureDevice *prometheus.GaugeVec
-	miningSpeed       *prometheus.GaugeVec
-	walletBalance     prometheus.Gauge
-	unpaidAmount      prometheus.Gauge
+	temperatureVRAM     *prometheus.GaugeVec
+	temperatureDevice   *prometheus.GaugeVec
+	miningSpeed         *prometheus.GaugeVec
+	walletBalance       prometheus.Gauge
+	unpaidAmount        prometheus.Gauge
+	nextpayouttimestamp prometheus.Gauge
 }
 
 func initMetrics() (metrics Metrics) {
@@ -53,6 +55,12 @@ func initMetrics() (metrics Metrics) {
 		Help:      "unpaid in BTC",
 	})
 
+	metrics.nextpayouttimestamp = promauto.NewGauge(prometheus.GaugeOpts{
+		Namespace: "nicehash",
+		Name:      "nextpayouttimestamp",
+		Help:      "next payout timestamp",
+	})
+
 	return
 }
 
@@ -77,6 +85,9 @@ func getMetrics(appConfig config.AppConfig, m Metrics) {
 			if err == nil {
 				m.unpaidAmount.Set(float64(pendingF))
 			}
+
+			fmt.Println(float64(g.Nextpayouttimestamp.Unix()))
+			m.nextpayouttimestamp.Set(float64(g.Nextpayouttimestamp.Unix()))
 
 			g.ComputeTemperature()
 

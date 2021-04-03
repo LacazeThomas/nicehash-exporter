@@ -38,5 +38,9 @@ func main() {
 
 	getMetrics(appConfig, metrics)
 	http.Handle("/metrics", promhttp.Handler())
-	http.ListenAndServe(":9159", nil)
+	err = http.ListenAndServe(":9160", nil)
+	if err != nil {
+		Check("Unable to open stocket", err)
+	}
+
 }
