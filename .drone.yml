@@ -1,0 +1,59 @@
+###
+kind: pipeline
+type: docker
+name: linux-amd64
+
+platform:
+  arch: amd64
+  os: linux
+
+steps:
+
+- name: unit test
+  image: golang
+  environment:
+    coveralls_token:
+      from_secret: coveralls_token
+    DEEPSOURCE_DSN:
+      from_secret: deepsource_dsn
+  commands:
+    - go get golang.org/x/tools/cmd/cover
+    - go get github.com/mattn/goveralls
+    - go test ./...  -v -covermode=count -coverprofile=coverage.out
+    - $GOPATH/bin/goveralls -coverprofile=coverage.out -service=drone-ci -repotoken $${coveralls_token}
+    - curl https://deepsource.io/cli | sh
+    - ./bin/deepsource report --analyzer test-coverage --key go --value-file ./coverage.out
+
+
+- name: publish to Dockerhub image
+  image: plugins/docker
+  settings:
+    auto_tag: true
+    repo: thomaslacaze/nicehash-exporter
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event:
+    - push
+    - tag
+    branch:
+    - master
+    - main
+
+- name: publish readme to Dockerhub
+  image: thomaslacaze/dockerhub-description:2.4.1
+  pull: always
+  settings:
+    repository: thomaslacaze/nicehash-exporter
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    readme: /drone/src/README.md
+  when:
+    branch:
+    - master
+    - main
+###
