@@ -42,5 +42,4 @@ func main() {
 	if err != nil {
 		Check("Unable to open stocket", err)
 	}
-
 }

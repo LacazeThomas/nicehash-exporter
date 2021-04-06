@@ -20,6 +20,7 @@ type Metrics struct {
 	walletBalance       prometheus.Gauge
 	unpaidAmount        prometheus.Gauge
 	nextpayouttimestamp prometheus.Gauge
+	feerules            prometheus.Gauge
 }
 
 func initMetrics() (metrics Metrics) {
@@ -61,6 +62,12 @@ func initMetrics() (metrics Metrics) {
 		Help:      "next payout timestamp",
 	})
 
+	metrics.feerules = promauto.NewGauge(prometheus.GaugeOpts{
+		Namespace: "nicehash",
+		Name:      "feerules",
+		Help:      "feerules in pourcent",
+	})
+
 	return
 }
 
@@ -88,6 +95,10 @@ func getMetrics(appConfig config.AppConfig, m Metrics) {
 
 			fmt.Println(float64(g.Nextpayouttimestamp.Unix()))
 			m.nextpayouttimestamp.Set(float64(g.Nextpayouttimestamp.Unix()))
+
+			f, err := route.GetFeeRules(appConfig)
+			Check("Getting FeeRules metrics", err)
+			m.feerules.Set(float64(f.Withdrawal.External.Rules.Btc.Intervals[0].Element.Value))
 
 			g.ComputeTemperature()
 
