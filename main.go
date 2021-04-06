@@ -35,6 +35,7 @@ func main() {
 	prometheus.Register(metrics.walletBalance)
 	prometheus.Register(metrics.unpaidAmount)
 	prometheus.Register(metrics.miningSpeed)
+	prometheus.Register(metrics.feerules)
 
 	getMetrics(appConfig, metrics)
 	http.Handle("/metrics", promhttp.Handler())
