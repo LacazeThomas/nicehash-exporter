@@ -7,6 +7,6 @@ import (
 
 //GetFeeRules from Nicehash API
 func GetFeeRules(cfg config.AppConfig) (f models.Feerules, err error) {
-	err = getToStructWithLogin(cfg, "/main/api/v2/public/service/fee/info", &f)
+	err = getToStruct(cfg, "/main/api/v2/public/service/fee/info", true, &f)
 	return
 }

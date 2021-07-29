@@ -7,6 +7,6 @@ import (
 
 //GetBalance from Nicehash API
 func GetMiningStats(cfg config.AppConfig) (m models.MiningStats, err error) {
-	err = getToStructWithLogin(cfg, "/main/api/v2/mining/rigs2", &m)
+	err = getToStruct(cfg, "/main/api/v2/mining/rigs2", true, &m)
 	return
 }

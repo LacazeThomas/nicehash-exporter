@@ -7,6 +7,6 @@ import (
 
 //GetBalance from Nicehash API
 func GetBalance(cfg config.AppConfig) (b models.Balance, err error) {
-	err = getToStructWithLogin(cfg, "/main/api/v2/accounting/account2/BTC", &b)
+	err = getToStruct(cfg, "/main/api/v2/accounting/account2/BTC", true, &b)
 	return
 }
