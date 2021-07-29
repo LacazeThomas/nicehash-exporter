@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/lacazethomas/nicehash-exporter/config"
+	"github.com/lacazethomas/nicehash-exporter/route"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
@@ -39,6 +40,8 @@ func main() {
 
 	getMetrics(appConfig, metrics)
 	http.Handle("/metrics", promhttp.Handler())
+	http.HandleFunc("/api/mining", route.HandleMining)
+	http.HandleFunc("/api/status", route.HandleStatus)
 	err = http.ListenAndServe(":9159", nil)
 	if err != nil {
 		Check("Unable to open stocket", err)
