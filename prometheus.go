@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 
@@ -93,7 +92,6 @@ func getMetrics(appConfig config.AppConfig, m Metrics) {
 				m.unpaidAmount.Set(float64(pendingF))
 			}
 
-			fmt.Println(float64(g.Nextpayouttimestamp.Unix()))
 			m.nextpayouttimestamp.Set(float64(g.Nextpayouttimestamp.Unix()))
 
 			f, err := route.GetFeeRules(appConfig)
