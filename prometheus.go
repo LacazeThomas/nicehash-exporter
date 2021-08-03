@@ -111,13 +111,16 @@ func getMetrics(appConfig config.AppConfig, m Metrics) {
 						}
 					}
 
-					for z := range g.Miningrigs[i].Devices[y].Speeds {
-						speedF, err := strconv.ParseFloat(g.Miningrigs[i].Devices[y].Speeds[z].Speed, 64)
-						Check("Parsing Speed string to float64", err)
-						if err == nil {
-							m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, g.Miningrigs[i].Devices[y].Speeds[z].Algorithm).Set(speedF)
-						} else {
-							m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, g.Miningrigs[i].Devices[y].Speeds[z].Algorithm).Set(0)
+					if len(g.Miningrigs[i].Devices[y].Speeds) == 0 {
+						m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name).Set(0)
+					} else {
+						for z := range g.Miningrigs[i].Devices[y].Speeds {
+							speedF, err := strconv.ParseFloat(g.Miningrigs[i].Devices[y].Speeds[z].Speed, 64)
+							if err == nil {
+								m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, g.Miningrigs[i].Devices[y].Speeds[z].Algorithm).Set(speedF)
+							} else {
+								m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, g.Miningrigs[i].Devices[y].Speeds[z].Algorithm).Set(0)
+							}
 						}
 					}
 
