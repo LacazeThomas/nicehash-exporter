@@ -112,7 +112,7 @@ func getMetrics(appConfig config.AppConfig, m Metrics) {
 					}
 
 					if len(g.Miningrigs[i].Devices[y].Speeds) == 0 {
-						m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name).Set(0)
+						m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, "none").Set(0)
 					} else {
 						for z := range g.Miningrigs[i].Devices[y].Speeds {
 							speedF, err := strconv.ParseFloat(g.Miningrigs[i].Devices[y].Speeds[z].Speed, 64)
