@@ -41,7 +41,7 @@ func initMetrics() (metrics Metrics) {
 		Namespace: "nicehash",
 		Name:      "miningSpeed",
 		Help:      "Mining speed in MH",
-	}, []string{"localisation", "device", "algo"})
+	}, []string{"localisation", "device"})
 
 	metrics.walletBalance = promauto.NewGauge(prometheus.GaugeOpts{
 		Namespace: "nicehash",
@@ -112,22 +112,20 @@ func getMetrics(appConfig config.AppConfig, m Metrics) {
 					}
 
 					if len(g.Miningrigs[i].Devices[y].Speeds) == 0 {
-						m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, "none").Set(0)
+						m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name).Set(0)
 					} else {
 						for z := range g.Miningrigs[i].Devices[y].Speeds {
 							speedF, err := strconv.ParseFloat(g.Miningrigs[i].Devices[y].Speeds[z].Speed, 64)
 							if err == nil {
-								m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, g.Miningrigs[i].Devices[y].Speeds[z].Algorithm).Set(speedF)
+								m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name).Set(speedF)
 							} else {
-								m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, g.Miningrigs[i].Devices[y].Speeds[z].Algorithm).Set(0)
+								m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name).Set(0)
 							}
 						}
 					}
-
 				}
-
 			}
-			time.Sleep(60 * time.Second)
+			time.Sleep(15 * time.Second)
 		}
 	}()
 }
