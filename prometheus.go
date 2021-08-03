@@ -116,6 +116,8 @@ func getMetrics(appConfig config.AppConfig, m Metrics) {
 						Check("Parsing Speed string to float64", err)
 						if err == nil {
 							m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, g.Miningrigs[i].Devices[y].Speeds[z].Algorithm).Set(speedF)
+						} else {
+							m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name, g.Miningrigs[i].Devices[y].Speeds[z].Algorithm).Set(0)
 						}
 					}
 
