@@ -9,6 +9,7 @@ import (
 	"github.com/lacazethomas/nicehash-exporter/route"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
+	"go.uber.org/zap"
 )
 
 // Metrics listed are supported
@@ -113,6 +114,7 @@ func getMetrics(appConfig config.AppConfig, m Metrics) {
 
 					if len(g.Miningrigs[i].Devices[y].Speeds) == 0 {
 						m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name).Set(0)
+						zap.S().Debug("can't get mining speed, host seems to be down")
 					} else {
 						for z := range g.Miningrigs[i].Devices[y].Speeds {
 							speedF, err := strconv.ParseFloat(g.Miningrigs[i].Devices[y].Speeds[z].Speed, 64)
@@ -120,6 +122,7 @@ func getMetrics(appConfig config.AppConfig, m Metrics) {
 								m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name).Set(speedF)
 							} else {
 								m.miningSpeed.WithLabelValues(g.Miningrigs[i].Name, g.Miningrigs[i].Devices[y].Name).Set(0)
+								zap.S().Debug("get mining speed but can't parse it into float")
 							}
 						}
 					}

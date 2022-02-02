@@ -12,7 +12,8 @@ import (
 func HandleMining(w http.ResponseWriter, r *http.Request) {
 	cfg := config.GetAppConfig()
 
-	values := models.Status2{Action: r.URL.Query().Get("action"), RigID: r.URL.Query().Get("rigId")}
+	values := models.Status2{Action: r.URL.Query().Get("action"), DeviceID: r.URL.Query().Get("deviceId"), RigID: r.URL.Query().Get("rigId"), Options: []string{r.URL.Query().Get("options")}}
+
 	json_body, err := json.Marshal(values)
 
 	if err != nil {

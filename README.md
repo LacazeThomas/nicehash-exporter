@@ -44,13 +44,30 @@ nicehash_unpaidAmount 0
 nicehash_walletbalance 0
 ```
 
-## API call to start / stop mining / get status from rigId
+## API call to interaction with your rig or device 
+
+If you want to specify a device use 'deviceId' instead of 'rigId'
+
+Start mining :
 ```bash
 $ curl --location --request POST 'http://****:9159/api/mining?rigId=****&action=START'
 ```
+
+Stop mining :
 ```bash
 $ curl --location --request POST 'http://****:9159/api/mining?rigId=****&action=STOP'
 ```
+
+Status mining (Mining=1, Not mininig = 0)
 ```bash
 $ curl --location --request POST 'http://****:9159/api/status?rigId=****'
 ```
+
+Change GPU optimisation :
+```bash
+curl -X POST -G 'http://****:9159/api/mining' -d rigId=**** -d action=NHQM_SET -d 'options=V=1%3BOP=2%3B'
+```
+
+`V=1%3BOP=2%3B` equal to `V=1;OP=2;`
+
+[See more for actions options](https://github.com/nicehash/rest-clients-demo/issues/38)
